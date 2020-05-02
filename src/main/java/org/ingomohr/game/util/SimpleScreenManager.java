@@ -5,6 +5,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Window;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.swing.JFrame;
 
@@ -18,6 +19,27 @@ public class SimpleScreenManager {
 	public SimpleScreenManager() {
 		final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		device = env.getDefaultScreenDevice();
+
+		printAvailableDisplayModes();
+
+	}
+
+	private void printAvailableDisplayModes() {
+		System.out.println("Available modes");
+		final DisplayMode[] displayModes = device.getDisplayModes();
+		Stream.of(displayModes).forEach(mode -> {
+			System.out.println(modeToStr(mode));
+		});
+
+	}
+
+	private String modeToStr(DisplayMode mode) {
+		final int height = mode.getHeight();
+		final int width = mode.getWidth();
+		final int bitDepth = mode.getBitDepth();
+		final int refreshRate = mode.getRefreshRate();
+
+		return width + "x" + height + "x" + bitDepth + " at " + refreshRate + "Hz";
 	}
 
 	/**
