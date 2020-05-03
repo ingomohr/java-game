@@ -75,19 +75,15 @@ public class ThreadPool extends ThreadGroup {
 	 * Closes the pool and waits for all running threads to finish.
 	 */
 	public void join() {
-		System.out.println("notify...");
 		synchronized (this) {
 			isAlive = false;
 			notifyAll();
 		}
 		
-		System.out.println("Join all...");
-
 		Thread[] threads = new Thread[activeCount()];
 		int count = enumerate(threads);
 		for (int i = 0; i < count; i++) {
 			try {
-				System.out.println("Join " + i + "...");
 				threads[i].join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
